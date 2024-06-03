@@ -64,7 +64,7 @@ class OrderService
     protected function handleLowStockNotification(Collection $productIngredient): void
     {
         $productIngredient->each(function (Ingredient $ingredient) {
-            if ($this->isStockBelowThreshold($ingredient)) {
+            if ($this->isStockBelowThreshold($ingredient) && blank($ingredient->out_of_stock_notification_date)) {
                 $this->sendLowStockNotification($ingredient);
                 $ingredient->update(['out_of_stock_notification_date' => now()]);
             }
